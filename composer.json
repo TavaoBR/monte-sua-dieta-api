@@ -7,11 +7,16 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "google-gemini-php/symfony": "^1.0",
+        "gemini-api-php/client": "^1.7",
+        "google-gemini-php/client": "^1.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "nyholm/psr7": "^1.8",
+        "openai-php/client": "^0.10.3",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.2.*",
+        "symfony/http-client": "7.2.*",
         "symfony/runtime": "7.2.*",
         "symfony/yaml": "7.2.*"
     },
@@ -64,5 +69,8 @@
             "allow-contrib": false,
             "require": "7.2.*"
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.62"
     }
 }
