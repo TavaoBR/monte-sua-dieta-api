@@ -30,7 +30,7 @@ final class DietaIAController extends AbstractController
     public function monteComIa(): JsonResponse
     {
 
-        $result = $this->gemini->gerar('Monte uma dieta para perder peso');
+        $result = $this->gemini->gerar('Monte uma dieta para 1 semana, no qual gostaria de aumentar minha massa magra e diminuir percentual de gordura, sou vegano. Observação, monte como se fosse uma lista');
 
         return $this->json([
             'result' => $result

@@ -17,13 +17,19 @@
         "nelmio/cors-bundle": "^2.5",
         "nyholm/psr7": "^1.8",
         "openai-php/client": "^0.10.3",
+        "ramsey/uuid": "^4.7",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.2.*",
         "symfony/http-client": "7.2.*",
+        "symfony/mailer": "7.2.*",
+        "symfony/password-hasher": "7.2.*",
         "symfony/runtime": "7.2.*",
-        "symfony/yaml": "7.2.*"
+        "symfony/security-bundle": "7.2.*",
+        "symfony/serializer": "7.2.*",
+        "symfony/yaml": "7.2.*",
+        "zumba/json-serializer": "^3.2"
     },
     "config": {
         "allow-plugins": {

@@ -2,10 +2,6 @@
 
 namespace App\Service;
 
-use Gemini\Data\GenerationConfig;
-use Gemini\Enums\HarmBlockThreshold;
-use Gemini\Data\SafetySetting;
-use Gemini\Enums\HarmCategory;
 use Gemini;
 
 class GeminiService
