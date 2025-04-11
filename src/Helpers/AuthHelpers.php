@@ -22,6 +22,8 @@ class AuthHelpers
         // Converta todas as chaves do array para letras minúsculas (opcional)
         $headers = array_change_key_case($headers, CASE_LOWER);
 
+        $headers = str_replace('=', '', $headers);
+
         
         if (!isset($headers['x-monte-ia-fit-token'])) {
             return [
@@ -36,7 +38,7 @@ class AuthHelpers
 
         return $auth ? 
             ['statusCode' => 200, 'message' => 'Autorizado.'] :
-            ['statusCode' => 401, 'message' => 'Não autorizado.'];
+            ['statusCode' => 401, 'message' => 'Não autorizado.', 'headers' => $headers];
     }
 
     public function is_autenticado()

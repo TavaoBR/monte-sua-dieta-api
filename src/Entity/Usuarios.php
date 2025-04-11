@@ -26,11 +26,11 @@ class Usuarios
     #[ORM\Column(length: 999, nullable: true)]
     private ?string $Token = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 100000, nullable: true)]
     private ?string $Avatar = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $Credito = null;
+    private ?string $Credito = 100;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;

@@ -43,7 +43,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": [
+            "utils/Prompts.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

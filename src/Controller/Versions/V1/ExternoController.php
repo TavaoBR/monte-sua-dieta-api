@@ -27,16 +27,17 @@ final class ExternoController extends AbstractController
         $nomeUsuario = $data['usuario'];
         $email = $data['email'];
         $senha = $data['senha'];
+        $avatar = $data['avatar'];
 
-        if($this->usuariosRepository->findByEmail($email)){
+        if($this->usuariosRepository->findByEmail($email) OR $this->usuariosRepository->findByNomeUsuario($nomeUsuario)){
           return $this->json([
-            'message' => 'E-mail cadastrado'
+            'message' => 'Usuario já cadastrado'
           ], 409);
         }
 
  
         try{
-            $this->usuariosRepository->novoUsuario($nomeUsuario,  password_hash($senha,PASSWORD_DEFAULT), $email);
+            $this->usuariosRepository->novoUsuario($nomeUsuario,  password_hash($senha,PASSWORD_DEFAULT), $email, $avatar);
             return $this->json([
                 'message' => 'Conta criada com sucesso',
             ], 201);
@@ -45,7 +46,7 @@ final class ExternoController extends AbstractController
             return $this->json([
                 'message' => 'Ocorreu algum erro inesperado',
                 'errors' => $e->getMessage(),
-            ]);
+            ], 500);
         }
 
     }

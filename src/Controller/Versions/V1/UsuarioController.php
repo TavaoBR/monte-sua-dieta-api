@@ -35,7 +35,7 @@ final class UsuarioController extends AbstractController
         return new JsonResponse($json, 200, [], true);
 
     }
-
+    
     #[Route('/', methods:['PUT'])]
     public function editar()
     {

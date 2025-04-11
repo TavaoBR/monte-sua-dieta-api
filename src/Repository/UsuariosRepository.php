@@ -22,19 +22,26 @@ class UsuariosRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function findByNomeUsuario(string $nomeUsuario)
+    {
+       $result = $this->findOneBy(['NomeUsuario' => $nomeUsuario]);
+       return $result;
+    }
+
     public function findByToken(string $token)
     {
         $result = $this->findOneBy(['Token' => $token]);
         return $result;
     }
 
-    public function novoUsuario($NomeUsuario, $senha, $email)
+    public function novoUsuario($NomeUsuario, $senha, $email, $avatar): Usuarios
     {
         $entityManager = $this->getEntityManager();
         $usuario = new Usuarios;
         $usuario->setNomeUsuario($NomeUsuario);
         $usuario->setSenha($senha);
         $usuario->setEmail($email);
+        $usuario->setAvatar($avatar);
         $usuario->setCreatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
         $entityManager->persist($usuario);
         $entityManager->flush();
