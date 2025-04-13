@@ -48,6 +48,8 @@ class AuthHelpers
         // Converta todas as chaves do array para letras minúsculas (opcional)
         $headers = array_change_key_case($headers, CASE_LOWER);
 
+        $headers = str_replace('=', '', $headers);
+
         if(!isset($headers['x-monte-ia-fit-token'])){
             throw new UnauthorizedHttpException('Token inválido: cabeçalho ausente.');     
         }
