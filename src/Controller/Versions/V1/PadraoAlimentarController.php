@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Versions\V1;
 
 use App\Helpers\AuthHelpers;
 use App\Repository\PadraoAlimentarRepository;
