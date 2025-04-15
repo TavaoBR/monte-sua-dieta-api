@@ -69,3 +69,13 @@ function prompt1()
 
     return $prompt;
 }
+
+function verificarPreferenciasAlimentar($texto){
+  $prompt = <<<PROMPT
+    isso é uma preferencia alimentar ?
+    responda apenas com sim ou não
+    "$texto"
+  PROMPT;
+
+  return $prompt;
+}
