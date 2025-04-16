@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/v1/padrao-alimentar')]
 final class PadraoAlimentarController extends AbstractController
@@ -17,10 +18,11 @@ final class PadraoAlimentarController extends AbstractController
     private $padraoAlimentar;
     private $serializer;
 
-    public function __construct(AuthHelpers $authHelpers, PadraoAlimentarRepository $padraoAlimentarRepository)
+    public function __construct(AuthHelpers $authHelpers, PadraoAlimentarRepository $padraoAlimentarRepository, SerializerInterface $serializer)
     {
       $this->auth = $authHelpers;
       $this->padraoAlimentar = $padraoAlimentarRepository;
+      $this->serializer = $serializer;
 
     }
 
