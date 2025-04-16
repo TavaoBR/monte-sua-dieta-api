@@ -59,7 +59,7 @@ final class PadraoAlimentarController extends AbstractController
 
         $dietaEspc = $data['dietaEspc'];
         $restricao = $data['restricao'];
-        $preferencia = $data['preferencia'];
+        $preferencia = $data['preferencias'];
 
         try{
             $this->padraoAlimentar->addPadraoAlimentar($usuarioId, $dietaEspc, $restricao, $preferencia);
