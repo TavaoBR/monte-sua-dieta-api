@@ -62,7 +62,7 @@ final class IAController extends AbstractController
         $data = ($request->headers->get('Content-Type') == 'application/json') ? $request->toArray() : $request->request->all();
         $idUsuario = $this->authHelpers->is_autenticado()['id'];
         $prompt = gerarFichaTreino($data);
-        $resultado = $this->gemini->gerar($prompt);
+        $resultado =  preg_replace('/^```html\\n|\\n```$/', '', $this->gemini->gerar($prompt));
 
         try{
           $this->treinoInteligente->gerarFicha($idUsuario, $data['objetivo'], $prompt, $resultado, 40);
