@@ -55,7 +55,7 @@ final class IAController extends AbstractController
     }
 
 
-    #[Route("/ficha-treino/gerar", methods:['POST'])]
+    #[Route("/ficha-treino", methods:['POST'])]
     public function treinoInteligente(Request $request)
     {
         $this->authHelpers->is_autenticado();
@@ -69,7 +69,7 @@ final class IAController extends AbstractController
           return $this->json([
             'message' => 'Ficha de treino criada com sucesso',
         ], 201);
-        
+
         }catch(\Exception $e){
             return $this->json([
                 'message' => 'Ocorreu algum erro inesperado',
@@ -77,6 +77,40 @@ final class IAController extends AbstractController
             ], 500);
 
         }    
+    }
+
+    #[Route("/ficha-treino", methods:['GET'])]
+    public function listFichas()
+    {
+        $this->authHelpers->is_autenticado();
+        $idUsuario = $this->authHelpers->is_autenticado()['id'];
+        $fichas = $this->treinoInteligente->findByIdUsuario($idUsuario);
+
+        if(!$fichas){
+            return $this->json([
+                'message' => 'Informações Não encontradas',
+            ], 404);
+        }
+
+        $json = $this->serializer->serialize($fichas, 'json');
+        return new JsonResponse($json, 200, [], true);
+    }
+
+    #[Route("/ficha-treino/{id}", methods:['GET'])]
+    public function listarFicha(int $id)
+    {
+        $this->authHelpers->is_autenticado();
+        $idUsuario = $this->authHelpers->is_autenticado()['id'];
+        $ficha = $this->treinoInteligente->findById($id,$idUsuario);
+
+        if(!$ficha){
+            return $this->json([
+                'message' => 'Informações Não encontradas',
+            ], 404);
+        }
+
+        $json = $this->serializer->serialize($ficha, 'json');
+        return new JsonResponse($json, 200, [], true);
     }
 
    /* #[Route("/ficha-treino/gerar", methods:['POST'])]

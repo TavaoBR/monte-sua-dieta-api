@@ -19,7 +19,7 @@ class TreinoInteligenteRepository extends ServiceEntityRepository
 
     public function findByIdUsuario(int $idUsuario)
     {
-      $result = $this->findOneBy(['IdUsuario' => $idUsuario]);
+      $result = $this->findBy(['IdUsuario' => $idUsuario]);
       return $result;
     }
 
