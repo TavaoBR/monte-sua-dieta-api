@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UsuariosRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UsuariosRepository::class)]
 class Usuarios
@@ -40,6 +43,19 @@ class Usuarios
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $Tentativas = 0;
+
+    /**
+     * @var Collection<int, TreinoInteligente>
+     */
+    
+    #[Ignore]
+    #[ORM\OneToMany(targetEntity: TreinoInteligente::class, mappedBy: 'IdUsuario')]
+    private Collection $treinoInteligentes;
+
+    public function __construct()
+    {
+        $this->treinoInteligentes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +166,36 @@ class Usuarios
     public function setTentativas(int $Tentativas): static
     {
         $this->Tentativas = $Tentativas;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TreinoInteligente>
+     */
+    public function getTreinoInteligentes(): Collection
+    {
+        return $this->treinoInteligentes;
+    }
+
+    public function addTreinoInteligente(TreinoInteligente $treinoInteligente): static
+    {
+        if (!$this->treinoInteligentes->contains($treinoInteligente)) {
+            $this->treinoInteligentes->add($treinoInteligente);
+            $treinoInteligente->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTreinoInteligente(TreinoInteligente $treinoInteligente): static
+    {
+        if ($this->treinoInteligentes->removeElement($treinoInteligente)) {
+            // set the owning side to null (unless already changed)
+            if ($treinoInteligente->getIdUsuario() === $this) {
+                $treinoInteligente->setIdUsuario(null);
+            }
+        }
 
         return $this;
     }

@@ -79,3 +79,27 @@ function verificarPreferenciasAlimentar($texto){
 
   return $prompt;
 }
+
+
+function gerarFichaTreino(array $data){
+   $grupos = is_array($data['grupos']) ? implode(', ', $data['grupos']) : $data['grupos']; 
+   $prompt = <<<PROMPT
+    Gere uma ficha de treino personalizada com base nas seguintes informações do usuário:
+    Nome: {{$data['nome']}}
+    Idade: {{$data['idade']}}
+    Sexo: {{$data['sexo']}}
+    Altura: {{$data['altura']}} cm
+    Peso: {{$data['peso']}} kg
+    Objetivo: {{$data['objetivo']}}
+    Nível: {{$data['nivel']}}
+    Frequência semanal: {{$data['frequencia']}}
+    Local de treino: {{$data['local']}}
+    Grupos musculares prioritários: {{$grupos}}
+    Deseja incluir cardio? {{$data['cardio']}}
+    Deseja aquecimento/alongamento? {{$data['alogamento']}}
+
+    A ficha deve considerar divisão de treino adequada (ex: ABC, AB, Full Body), volume e intensidade apropriados ao nível, e respeitar as restrições informadas. Cada dia deve conter exercícios, número de séries e repetições recomendadas. Incluir, se solicitado, sugestões de aquecimento, cardio e alongamento. O treino deve ser prático e adaptado à realidade do usuário.
+   PROMPT;
+
+   return $prompt;
+}
