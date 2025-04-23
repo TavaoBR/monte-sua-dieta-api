@@ -84,61 +84,60 @@ function verificarPreferenciasAlimentar($texto){
 function gerarFichaTreino(array $data){
     $grupos = is_array($data['grupos']) ? implode(', ', $data['grupos']) : $data['grupos']; 
     $prompt = <<<PROMPT
-     Gere uma ficha de treino personalizada com base nas seguintes informações do usuário:
-     Nome: {$data['nome']}
-     Idade: {$data['idade']}
-     Sexo: {$data['sexo']}
-     Altura: {$data['altura']} cm
-     Peso: {$data['peso']} kg
-     Objetivo: {$data['objetivo']}
-     Nível: {$data['nivel']}
-     Frequência semanal: {$data['frequencia']}
-     Local de treino: {$data['local']}
-     Grupos musculares prioritários: {$grupos}
-     Deseja incluir cardio? {$data['cardio']}
-     Deseja aquecimento/alongamento? {$data['alogamento']}
- 
-     A ficha deve considerar uma divisão de treino apropriada (ex: ABC, AB, Full Body), respeitando o nível, objetivo e preferências do usuário. A estrutura da resposta deve ser **apenas os cards HTML**, um para cada dia de treino, seguindo exatamente o modelo abaixo, com foco na clareza e estilo visual consistente.
- 
-     **Regras para a resposta:**
-     - Não adicione nenhum texto antes ou depois dos cards.
-     - Todos os cards devem estar **dentro de uma `div` com `class="flex flex-wrap justify-center gap-6 p-6"`** para garantir o espaçamento e responsividade adequada.
-     - Cada dia de treino deve ser um **card HTML separado**, com margem interna (padding) e sombra.
-     - Utilize tags `<strong>` para destacar os títulos dentro dos cards (Aquecimento, Exercícios, Cardio, Alongamento).
-     - Use o ícone SVG de informação (como ⚠️ ou semelhante) no topo de cada card.
- 
-     **Exemplo de card (replique essa estrutura):**
- 
-     ```html
-     <div class="flex flex-wrap justify-start gap-6 p-6">
-       <!-- Card 1 -->
-       <div class="w-full max-w-sm bg-white rounded-lg shadow-md p-6">
-           <div class="text-xl mb-2">⚠️</div>
-           <h2 class="text-lg font-bold mb-2">Dia 1: Peito & Tríceps</h2>
-           <p><strong>Aquecimento:</strong> 5 minutos de esteira leve, 10 repetições de cada:</p>
-           <ul class="list-disc list-inside text-sm mb-2">
-             <li>Rotação de ombros</li>
-             <li>Elevação lateral de braços</li>
-             <li>Remada alta</li>
-           </ul>
-           <p><strong>Exercícios:</strong></p>
-           <ul class="list-disc list-inside text-sm mb-2">
-             <li>Supino Reto: 4x de 8-12 repetições</li>
-             <li>Supino Inclinado: 3x de 8-10 repetições</li>
-             <li>Crucifixo Inclinado: 3x de 10-12 repetições</li>
-             <li>Flexões: 3x até a falha</li>
-             <li>Tríceps Testa: 4x de 10-12 repetições</li>
-             <li>Tríceps Corda: 3x de 12 repetições</li>
-             <li>Tríceps Banco: 3x até a falha</li>
-           </ul>
-           <p><strong>Cardio:</strong> 20 minutos de corrida leve na esteira ou bicicleta.</p>
-           <p><strong>Alongamento:</strong> 5 minutos focando peito e tríceps.</p>
-       </div>
-       <!-- Outros cards seguem o mesmo padrão -->
-     </div>
-     ```
+    Gere uma ficha de treino personalizada com base nas seguintes informações do usuário:
+    Nome: {$data['nome']}
+    Idade: {$data['idade']}
+    Sexo: {$data['sexo']}
+    Altura: {$data['altura']} cm
+    Peso: {$data['peso']} kg
+    Objetivo: {$data['objetivo']}
+    Nível: {$data['nivel']}
+    Frequência semanal: {$data['frequencia']}
+    Local de treino: {$data['local']}
+    Grupos musculares prioritários: {$grupos}
+    Deseja incluir cardio? {$data['cardio']}
+    Deseja aquecimento/alongamento? {$data['alogamento']}
+
+    A ficha deve considerar uma divisão de treino apropriada (ex: ABC, AB, Full Body), respeitando o nível, objetivo e preferências do usuário. A estrutura da resposta deve ser **apenas os cards HTML**, um para cada dia de treino, seguindo exatamente o modelo abaixo, com foco na clareza e estilo visual consistente.
+
+     **Importante:** o local de treino informado ("{$data['local']}") deve ser a principal referência para a construção dos treinos. Adapte os exercícios e métodos considerando os recursos típicos desse local (ex: se for "casa", use treinos com peso corporal ou objetos comuns; se for "academia", utilize equipamentos e pesos; se for "ao ar livre", aproveite o ambiente).
+
+    **Regras para a resposta:**
+    - Não adicione nenhum texto antes ou depois dos cards.
+    - Não inclua a div externa que agrupa os cards. Essa `div` com classe `flex flex-wrap justify-start gap-6 p-6` será adicionada pelo sistema no frontend.
+    - Cada dia de treino deve ser um **card HTML separado**, com margem interna (padding) e sombra.
+    - Utilize tags `<strong>` para destacar os títulos dentro dos cards (Aquecimento, Exercícios, Cardio, Alongamento).
+    - Use o ícone SVG de informação (como ⚠️ ou semelhante) no topo de cada card.
+
+    **Exemplo de card (replique essa estrutura):**
+
+    ```html
+    <!-- Card 1 -->
+    <div class="w-full max-w-sm rounded-lg shadow-md p-6 bg-gray-900">
+        <div class="text-xl mb-2">📋</div>
+        <h2 class="text-white text-lg font-bold mb-2">Dia 1: Peito & Tríceps</h2>
+        <p class="text-white"><strong>Aquecimento:</strong> 5 minutos de esteira leve, 10 repetições de cada:</p>
+        <ul class="list-disc list-inside text-sm mb-2 text-white">
+            <li>Rotação de ombros</li>
+            <li>Elevação lateral de braços</li>
+            <li>Remada alta</li>
+        </ul>
+        <p class="text-white"><strong>Exercícios:</strong></p>
+        <ul class="list-disc list-inside text-sm mb-2 text-white">
+            <li>Supino Reto: 4x de 8-12 repetições</li>
+            <li>Supino Inclinado: 3x de 8-10 repetições</li>
+            <li>Crucifixo Inclinado: 3x de 10-12 repetições</li>
+            <li>Flexões: 3x até a falha</li>
+            <li>Tríceps Testa: 4x de 10-12 repetições</li>
+            <li>Tríceps Corda: 3x de 12 repetições</li>
+            <li>Tríceps Banco: 3x até a falha</li>
+        </ul>
+        <p class="text-white"><strong>Cardio:</strong> 20 minutos de corrida leve na esteira ou bicicleta.</p>
+        <p class="text-white"><strong>Alongamento:</strong> 5 minutos focando peito e tríceps.</p>
+    </div>
+    ```
     PROMPT;
- 
+
     return $prompt;
- }
+}
  

@@ -32,6 +32,12 @@ class TreinoInteligente
     #[ORM\ManyToOne(inversedBy: 'treinoInteligentes')]
     private ?Usuarios $IdUsuario = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Nivel = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $LocalTreino = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +111,30 @@ class TreinoInteligente
     public function setIdUsuario(?Usuarios $IdUsuario): static
     {
         $this->IdUsuario = $IdUsuario;
+
+        return $this;
+    }
+
+    public function getNivel(): ?string
+    {
+        return $this->Nivel;
+    }
+
+    public function setNivel(?string $Nivel): static
+    {
+        $this->Nivel = $Nivel;
+
+        return $this;
+    }
+
+    public function getLocalTreino(): ?string
+    {
+        return $this->LocalTreino;
+    }
+
+    public function setLocalTreino(?string $LocalTreino): static
+    {
+        $this->LocalTreino = $LocalTreino;
 
         return $this;
     }
