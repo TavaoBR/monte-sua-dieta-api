@@ -29,7 +29,7 @@ class TreinoInteligenteRepository extends ServiceEntityRepository
         return $result;
     }
 
-    public function gerarFicha($idUsuario, $objetivo, $prompt, $resultado, $pontos, $nivel): TreinoInteligente
+    public function gerarFicha($idUsuario, $objetivo, $prompt, $resultado, $pontos, $nivel, $local): TreinoInteligente
     {
         $usuario = $this->getEntityManager()->getRepository(Usuarios::class)->findOneBy(['id' => $idUsuario]);
         $entityManager = $this->getEntityManager();
@@ -40,6 +40,7 @@ class TreinoInteligenteRepository extends ServiceEntityRepository
         $treino->setResultado($resultado);
         $treino->setPontosUsados($pontos);
         $treino->setNivel($nivel);
+        $treino->setLocalTreino($local);
         $treino->setCreatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
         $entityManager->persist($treino);
         $entityManager->flush();

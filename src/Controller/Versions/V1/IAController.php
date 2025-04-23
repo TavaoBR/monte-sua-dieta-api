@@ -65,7 +65,7 @@ final class IAController extends AbstractController
         $resultado =  preg_replace('/^```html\\n|\\n```$/', '', $this->gemini->gerar($prompt));
 
         try{
-          $this->treinoInteligente->gerarFicha($idUsuario, $data['objetivo'], $prompt, $resultado, 10, $data['nivel']);
+          $this->treinoInteligente->gerarFicha($idUsuario, $data['objetivo'], $prompt, $resultado, 10, $data['nivel'], $data['local']);
           return $this->json([
             'message' => 'Ficha de treino criada com sucesso',
         ], 201);

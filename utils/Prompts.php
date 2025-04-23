@@ -100,14 +100,16 @@ function gerarFichaTreino(array $data){
 
     A ficha deve considerar uma divisão de treino apropriada (ex: ABC, AB, Full Body), respeitando o nível, objetivo e preferências do usuário. A estrutura da resposta deve ser **apenas os cards HTML**, um para cada dia de treino, seguindo exatamente o modelo abaixo, com foco na clareza e estilo visual consistente.
 
-     **Importante:** o local de treino informado ("{$data['local']}") deve ser a principal referência para a construção dos treinos. Adapte os exercícios e métodos considerando os recursos típicos desse local (ex: se for "casa", use treinos com peso corporal ou objetos comuns; se for "academia", utilize equipamentos e pesos; se for "ao ar livre", aproveite o ambiente).
+     **Importante:** 
+     -O local de treino informado ("{$data['local']}") deve ser a principal referência para a construção dos treinos. Adapte os exercícios e métodos considerando os recursos típicos desse local (ex: se for "casa", use treinos com peso corporal ou objetos comuns; se for "academia", utilize equipamentos e pesos; se for "ao ar livre", aproveite o ambiente).
+     -Os grupos musculares prioritários especificados pelo usuário ("{$grupos}") devem ser trabalhados com mais ênfase ao longo da semana, sendo destacados com volume e frequência apropriados nos treinos.
 
     **Regras para a resposta:**
     - Não adicione nenhum texto antes ou depois dos cards.
     - Não inclua a div externa que agrupa os cards. Essa `div` com classe `flex flex-wrap justify-start gap-6 p-6` será adicionada pelo sistema no frontend.
     - Cada dia de treino deve ser um **card HTML separado**, com margem interna (padding) e sombra.
     - Utilize tags `<strong>` para destacar os títulos dentro dos cards (Aquecimento, Exercícios, Cardio, Alongamento).
-    - Use o ícone SVG de informação (como ⚠️ ou semelhante) no topo de cada card.
+    - Use o ícone SVG de informação (como 📋 ou semelhante) no topo de cada card.
 
     **Exemplo de card (replique essa estrutura):**
 
