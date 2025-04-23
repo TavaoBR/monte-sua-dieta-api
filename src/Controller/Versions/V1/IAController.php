@@ -3,6 +3,7 @@
 namespace App\Controller\Versions\V1;
 
 use App\Repository\TreinoInteligenteRepository;
+use App\Repository\UsuariosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -56,16 +57,22 @@ final class IAController extends AbstractController
 
 
     #[Route("/ficha-treino", methods:['POST'])]
-    public function treinoInteligente(Request $request)
+    public function treinoInteligente(Request $request, UsuariosRepository $usuariosRepository)
     {
         $this->authHelpers->is_autenticado();
         $data = ($request->headers->get('Content-Type') == 'application/json') ? $request->toArray() : $request->request->all();
         $idUsuario = $this->authHelpers->is_autenticado()['id'];
         $prompt = gerarFichaTreino($data);
         $resultado =  preg_replace('/^```html\\n|\\n```$/', '', $this->gemini->gerar($prompt));
+        $usuario = $usuariosRepository->findByToken($this->authHelpers->is_autenticado()['token']);
+
+        $fitCoins = $usuario->getCredito() - 100;
 
         try{
-          $this->treinoInteligente->gerarFicha($idUsuario, $data['objetivo'], $prompt, $resultado, 10, $data['nivel'], $data['local']);
+          $this->treinoInteligente->gerarFicha($idUsuario, $data['objetivo'], $prompt, $resultado, 100, $data['nivel'], $data['local']);
+          $usuario->setCredito($fitCoins);
+          $usuario->setUpdatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
+          $usuariosRepository->updateUsuario($usuario);
           return $this->json([
             'message' => 'Ficha de treino criada com sucesso',
         ], 201);

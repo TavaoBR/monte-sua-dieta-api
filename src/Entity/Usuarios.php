@@ -33,7 +33,7 @@ class Usuarios
     private ?string $Avatar = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?int $Credito = 100;
+    private ?int $Credito = 1000;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
