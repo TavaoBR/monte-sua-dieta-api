@@ -78,6 +78,7 @@ class MercadoPagoService
         "currency_id" => "BRL",
         "unit_price" => $pacote->getValor()
        ]],
+       'notification_url' => 'https://7807-2804-5dc-364-6300-6935-95da-17e0-4123.ngrok-free.app/api/v1/pagamentos/mercado-pago/webhook',
        "back_urls"=> [
               "success" => "https://test.com/success",
               "failure" => "https://test.com/failure",

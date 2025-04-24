@@ -55,6 +55,7 @@ class Usuarios
     /**
      * @var Collection<int, Payments>
      */
+    #[Ignore]
     #[ORM\OneToMany(targetEntity: Payments::class, mappedBy: 'IdUsuario')]
     private Collection $payments;
 
