@@ -52,9 +52,16 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: TreinoInteligente::class, mappedBy: 'IdUsuario')]
     private Collection $treinoInteligentes;
 
+    /**
+     * @var Collection<int, Payments>
+     */
+    #[ORM\OneToMany(targetEntity: Payments::class, mappedBy: 'IdUsuario')]
+    private Collection $payments;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +201,36 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($treinoInteligente->getIdUsuario() === $this) {
                 $treinoInteligente->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payments>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payments $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payments $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getIdUsuario() === $this) {
+                $payment->setIdUsuario(null);
             }
         }
 

@@ -34,6 +34,12 @@ class UsuariosRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function findById(int $id)
+    {
+        $result = $this->findOneBy(['id' => $id]);
+        return $result;
+    }
+
     public function novoUsuario($NomeUsuario, $senha, $email, $avatar): Usuarios
     {
         $entityManager = $this->getEntityManager();
