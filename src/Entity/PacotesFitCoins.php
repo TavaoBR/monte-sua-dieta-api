@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PacotesFitCoinsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PacotesFitCoinsRepository::class)]
@@ -24,6 +26,17 @@ class PacotesFitCoins
 
     #[ORM\Column(nullable: true)]
     private ?int $QtdCoins = null;
+
+    /**
+     * @var Collection<int, PagamentoPacoteFitCoins>
+     */
+    #[ORM\OneToMany(targetEntity: PagamentoPacoteFitCoins::class, mappedBy: 'IdFitCoins')]
+    private Collection $pagamentoPacoteFitCoins;
+
+    public function __construct()
+    {
+        $this->pagamentoPacoteFitCoins = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +87,36 @@ class PacotesFitCoins
     public function setQtdCoins(?int $QtdCoins): static
     {
         $this->QtdCoins = $QtdCoins;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PagamentoPacoteFitCoins>
+     */
+    public function getPagamentoPacoteFitCoins(): Collection
+    {
+        return $this->pagamentoPacoteFitCoins;
+    }
+
+    public function addPagamentoPacoteFitCoin(PagamentoPacoteFitCoins $pagamentoPacoteFitCoin): static
+    {
+        if (!$this->pagamentoPacoteFitCoins->contains($pagamentoPacoteFitCoin)) {
+            $this->pagamentoPacoteFitCoins->add($pagamentoPacoteFitCoin);
+            $pagamentoPacoteFitCoin->setIdFitCoins($this);
+        }
+
+        return $this;
+    }
+
+    public function removePagamentoPacoteFitCoin(PagamentoPacoteFitCoins $pagamentoPacoteFitCoin): static
+    {
+        if ($this->pagamentoPacoteFitCoins->removeElement($pagamentoPacoteFitCoin)) {
+            // set the owning side to null (unless already changed)
+            if ($pagamentoPacoteFitCoin->getIdFitCoins() === $this) {
+                $pagamentoPacoteFitCoin->setIdFitCoins(null);
+            }
+        }
 
         return $this;
     }

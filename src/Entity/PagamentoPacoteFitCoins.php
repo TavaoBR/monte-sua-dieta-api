@@ -2,31 +2,37 @@
 
 namespace App\Entity;
 
-use App\Repository\PaymentsRepository;
+use App\Repository\PagamentoPacoteFitCoinsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PaymentsRepository::class)]
-class Payments
+#[ORM\Entity(repositoryClass: PagamentoPacoteFitCoinsRepository::class)]
+class PagamentoPacoteFitCoins
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'payments')]
+    #[ORM\ManyToOne(inversedBy: 'pagamentoPacoteFitCoins')]
     private ?Usuarios $IdUsuario = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Metodo = null;
+    #[ORM\ManyToOne(inversedBy: 'pagamentoPacoteFitCoins')]
+    private ?PacotesFitCoins $IdFitCoins = null;
 
-    #[ORM\Column(length: 999, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $MetodoPagamento = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
     private ?string $CorrelationId = null;
 
     #[ORM\Column(length: 999, nullable: true)]
-    private ?string $MPrefId = null;
+    private ?string $IdPagamentoMercadoPago = null;
 
     #[ORM\Column(nullable: true)]
     private ?array $MetadataJson = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $Status = "pending";
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -35,7 +41,7 @@ class Payments
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Status = 'pedding';
+    private ?string $GatwayUsado = "Mercado Pago API";
 
     public function getId(): ?int
     {
@@ -54,14 +60,26 @@ class Payments
         return $this;
     }
 
-    public function getMetodo(): ?string
+    public function getIdFitCoins(): ?PacotesFitCoins
     {
-        return $this->Metodo;
+        return $this->IdFitCoins;
     }
 
-    public function setMetodo(string $Metodo): static
+    public function setIdFitCoins(?PacotesFitCoins $IdFitCoins): static
     {
-        $this->Metodo = $Metodo;
+        $this->IdFitCoins = $IdFitCoins;
+
+        return $this;
+    }
+
+    public function getMetodoPagamento(): ?string
+    {
+        return $this->MetodoPagamento;
+    }
+
+    public function setMetodoPagamento(?string $MetodoPagamento): static
+    {
+        $this->MetodoPagamento = $MetodoPagamento;
 
         return $this;
     }
@@ -78,14 +96,14 @@ class Payments
         return $this;
     }
 
-    public function getMPrefId(): ?string
+    public function getIdPagamentoMercadoPago(): ?string
     {
-        return $this->MPrefId;
+        return $this->IdPagamentoMercadoPago;
     }
 
-    public function setMPrefId(?string $MPrefId): static
+    public function setIdPagamentoMercadoPago(?string $IdPagamentoMercadoPago): static
     {
-        $this->MPrefId = $MPrefId;
+        $this->IdPagamentoMercadoPago = $IdPagamentoMercadoPago;
 
         return $this;
     }
@@ -98,6 +116,18 @@ class Payments
     public function setMetadataJson(?array $MetadataJson): static
     {
         $this->MetadataJson = $MetadataJson;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(?string $Status): static
+    {
+        $this->Status = $Status;
 
         return $this;
     }
@@ -126,14 +156,14 @@ class Payments
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getGatwayUsado(): ?string
     {
-        return $this->Status;
+        return $this->GatwayUsado;
     }
 
-    public function setStatus(?string $Status): static
+    public function setGatwayUsado(?string $GatwayUsado): static
     {
-        $this->Status = $Status;
+        $this->GatwayUsado = $GatwayUsado;
 
         return $this;
     }

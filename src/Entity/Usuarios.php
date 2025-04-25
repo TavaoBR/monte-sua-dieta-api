@@ -52,17 +52,17 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: TreinoInteligente::class, mappedBy: 'IdUsuario')]
     private Collection $treinoInteligentes;
 
+
     /**
-     * @var Collection<int, Payments>
+     * @var Collection<int, PagamentoPacoteFitCoins>
      */
-    #[Ignore]
-    #[ORM\OneToMany(targetEntity: Payments::class, mappedBy: 'IdUsuario')]
-    private Collection $payments;
+    #[ORM\OneToMany(targetEntity: PagamentoPacoteFitCoins::class, mappedBy: 'IdUsuario')]
+    private Collection $pagamentoPacoteFitCoins;
 
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
-        $this->payments = new ArrayCollection();
+        $this->pagamentoPacoteFitCoins = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,30 +208,32 @@ class Usuarios
         return $this;
     }
 
+
+
     /**
-     * @return Collection<int, Payments>
+     * @return Collection<int, PagamentoPacoteFitCoins>
      */
-    public function getPayments(): Collection
+    public function getPagamentoPacoteFitCoins(): Collection
     {
-        return $this->payments;
+        return $this->pagamentoPacoteFitCoins;
     }
 
-    public function addPayment(Payments $payment): static
+    public function addPagamentoPacoteFitCoin(PagamentoPacoteFitCoins $pagamentoPacoteFitCoin): static
     {
-        if (!$this->payments->contains($payment)) {
-            $this->payments->add($payment);
-            $payment->setIdUsuario($this);
+        if (!$this->pagamentoPacoteFitCoins->contains($pagamentoPacoteFitCoin)) {
+            $this->pagamentoPacoteFitCoins->add($pagamentoPacoteFitCoin);
+            $pagamentoPacoteFitCoin->setIdUsuario($this);
         }
 
         return $this;
     }
 
-    public function removePayment(Payments $payment): static
+    public function removePagamentoPacoteFitCoin(PagamentoPacoteFitCoins $pagamentoPacoteFitCoin): static
     {
-        if ($this->payments->removeElement($payment)) {
+        if ($this->pagamentoPacoteFitCoins->removeElement($pagamentoPacoteFitCoin)) {
             // set the owning side to null (unless already changed)
-            if ($payment->getIdUsuario() === $this) {
-                $payment->setIdUsuario(null);
+            if ($pagamentoPacoteFitCoin->getIdUsuario() === $this) {
+                $pagamentoPacoteFitCoin->setIdUsuario(null);
             }
         }
 

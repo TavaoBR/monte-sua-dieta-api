@@ -3,10 +3,11 @@
 namespace App\Service\Payments;
 
 use App\Repository\PacotesFitCoinsRepository;
-use App\Repository\PaymentsRepository;
+use App\Repository\PagamentoPacoteFitCoinsRepository;
 use App\Repository\UsuariosRepository;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Order\OrderClient;
+use MercadoPago\Client\Payment\PaymentClient;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\Exceptions\MPApiException;
 use MercadoPago\MercadoPagoConfig;
@@ -21,37 +22,12 @@ class MercadoPagoService
  public function __construct(
     PacotesFitCoinsRepository $pacotesFitCoinsRepository,
     UsuariosRepository $usuariosRepository,
-    PaymentsRepository $paymentsRepository
+    PagamentoPacoteFitCoinsRepository $paymentsRepository
  ) {
     $this->usuarioRepository = $usuariosRepository;
     $this->paymentsRepository = $paymentsRepository;
     $this->pacotesRepository = $pacotesFitCoinsRepository;
  }   
-
- public function testLinkPagamento()
- {
-    MercadoPagoConfig::setAccessToken($_ENV['MERCADO_PAGO_TOKEN']);
-    $client = new PreferenceClient();
-    $preference = $client->create([
-        "items" => [[
-          "id" => "1234",
-          "title" => "Compra de FitCoins",
-          "description" => "Compra de pacote de FitCoins",
-          "quantity" => 1,
-          "currency_id" => "BRL",
-          "unit_price" => 5.00
-        ]],
-        "back_urls"=> [
-              "success" => "https://test.com/success",
-              "failure" => "https://test.com/failure",
-              "pending" => "https://test.com/pending"
-         ],
-         "auto_return" => "all"
-      ]);
-
-    return $preference;
- }
-
 
  public function gerarLinkPagamento($idPacote, $idUsuario)
  {
@@ -65,39 +41,33 @@ class MercadoPagoService
       ]; 
     }
 
-    $usuario = $this->usuarioRepository->findById($idUsuario);
-
     MercadoPagoConfig::setAccessToken($_ENV['MERCADO_PAGO_TOKEN']);
     $client = new PreferenceClient();
     $preference = $client->create([
        "items" => [[
-        "id" => $this->generateGUID(),
+        "id" => $pacote->getId(),
         "title" => $pacote->getTitulo(),
         "description" => $pacote->getDescricao(),
         "quantity" => 1,
         "currency_id" => "BRL",
         "unit_price" => $pacote->getValor()
        ]],
-       'notification_url' => 'https://7807-2804-5dc-364-6300-6935-95da-17e0-4123.ngrok-free.app/api/v1/pagamentos/mercado-pago/webhook',
        "back_urls"=> [
               "success" => "https://test.com/success",
               "failure" => "https://test.com/failure",
               "pending" => "https://test.com/pending"
          ],
+       "external_reference" => $this->generateGUID()  
     ]);
 
-    $prefId = $preference->id;
+    $external = $preference->external_reference;
     $init_point = $preference->init_point;
-    $fitCoins = $usuario->getCredito() + $pacote->getQtdCoins();
 
     $json = json_encode($preference);
     $array = json_decode($json, true);
 
     try{
-        $this->paymentsRepository->novoPagamentoMP($idUsuario, $prefId, $array);
-        $usuario->setCredito($fitCoins);
-        $usuario->setUpdatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
-        $this->usuarioRepository->updateUsuario($usuario);
+        $this->paymentsRepository->gerarPagamentoMercadoPago($idUsuario, $idPacote, $external, $array);
       return [
         'statusCode' => 201,
         'initPoint' => $init_point,
@@ -114,6 +84,42 @@ class MercadoPagoService
     
  }
 
+
+ public function buscarIdPagamento($idPagamento)
+ {
+   MercadoPagoConfig::setAccessToken($_ENV['MERCADO_PAGO_TOKEN']);
+   $client = new PaymentClient();
+   $payment = $client->get($idPagamento);
+
+   $correlationId = $payment->external_reference;
+   $metodoPagamento = $payment->payment_method->id ?? 'desconhecido';
+   $status = $payment->status;
+   $json = json_encode($payment);
+   $array = json_decode($json, true);
+
+   $pagamento = $this->paymentsRepository->findByCorrelationId($correlationId);
+
+   $pacoteFiCoinsId = $pagamento->getIdFitCoins();
+   $usuarioEntity = $pagamento->getIdUsuario();
+
+   $pacoteFitCoins = $this->pacotesRepository->findById($pacoteFiCoinsId->getId());
+
+   if($status === "approved"){
+      $usuario = $this->usuarioRepository->findById($usuarioEntity->getId());
+      $fitCoins = $usuario->getCredito() + $pacoteFitCoins->getQtdCoins();
+      $pagamento->setMetodoPagamento($metodoPagamento);
+      $pagamento->setIdPagamentoMercadoPago($idPagamento);
+      $pagamento->setStatus($status);
+      $pagamento->setMetadataJson($array);
+      $pagamento->setUpdatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
+      $usuario->setCredito($fitCoins);
+      $usuario->setUpdatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
+      $this->paymentsRepository->updatePagamento($pagamento);
+      $this->usuarioRepository->updateUsuario($usuario);
+   } 
+
+
+ }
 
  function generateGUID()
  {
