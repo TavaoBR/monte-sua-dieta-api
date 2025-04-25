@@ -56,6 +56,7 @@ class Usuarios
     /**
      * @var Collection<int, PagamentoPacoteFitCoins>
      */
+    #[Ignore]
     #[ORM\OneToMany(targetEntity: PagamentoPacoteFitCoins::class, mappedBy: 'IdUsuario')]
     private Collection $pagamentoPacoteFitCoins;
 

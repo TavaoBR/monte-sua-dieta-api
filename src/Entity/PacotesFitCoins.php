@@ -6,6 +6,7 @@ use App\Repository\PacotesFitCoinsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: PacotesFitCoinsRepository::class)]
 class PacotesFitCoins
@@ -30,6 +31,7 @@ class PacotesFitCoins
     /**
      * @var Collection<int, PagamentoPacoteFitCoins>
      */
+    #[Ignore]
     #[ORM\OneToMany(targetEntity: PagamentoPacoteFitCoins::class, mappedBy: 'IdFitCoins')]
     private Collection $pagamentoPacoteFitCoins;
 
