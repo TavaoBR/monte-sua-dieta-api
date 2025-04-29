@@ -39,4 +39,22 @@ final class FitCoinsController extends AbstractController
 
         return $this->json($data, 200);
     }
+
+    #[Route('/{id}', methods:['GET'])]
+    public function fitCoinId(int $id, PacotesFitCoinsRepository $pacotesFitCoinsRepository)
+    {
+        $this->authHelpers->is_autenticado();
+        $result = $pacotesFitCoinsRepository->findById($id);
+
+        if(!$result){
+          return $this->json([
+            'message' => 'Informação Não Encontrada'
+          ], 404);
+        }
+
+        $json = $this->serializer->serialize($result, 'json');
+
+        return new JsonResponse($json, 200, [], true);
+
+    }
 }
