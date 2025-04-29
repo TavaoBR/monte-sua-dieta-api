@@ -143,3 +143,65 @@ function gerarFichaTreino(array $data){
     return $prompt;
 }
  
+
+function gerarExercicios(array $dados) {
+    $uuid = generateGUID();
+
+    $prompt = <<<PROMPT
+Gere uma lista de exercícios personalizada com base nas seguintes informações do aluno:
+Nome: {$dados['nome']}
+Idade: {$dados['idade']} anos
+Altura: {$dados['altura']} cm
+Peso: {$dados['peso']} Kg
+Sexo: {$dados['sexo']}
+Objetivo: {$dados['obj']}
+Nível: {$dados['nivel']}
+Local de treino: Academia
+Liste apenas exercícios para: {$dados['musculo']}
+Nível de Dificuldade: {$dados['dificuldade']}
+Quantidade de exercícios: 5 exercícios
+
+Formato de resposta:
+[
+  {
+    "token": "$uuid",
+    "exercicio": "Nome do exercício",
+    "musculoAtivado": "Músculo principal ativado",
+    "comoExecutar": "Como executar o exercício",
+    "equipamentoNecessario": "Equipamento para executar o exercício",
+    "series": "Número de séries",
+    "repeticoes": "Número de repetições",
+    "nivelDificuldade": "Qual o nível de dificuldade desse exercício: fácil/médio/difícil"
+  },
+  ...
+]
+
+Observação Importante:
+- Em "como executar", faça um passo a passo breve de como realizar o exercício.
+Importante:
+- Retorne apenas o JSON puro, sem comentários, sem texto antes ou depois.
+- Não utilize markdown nem formate com ```json.
+PROMPT;
+
+    return $prompt;
+}
+
+
+function generateGUID()
+{
+    if (function_exists('com_create_guid') === true) {
+        return trim(com_create_guid(), '{}');
+    }
+
+    return sprintf(
+        '%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
+        mt_rand(0, 65535),
+        mt_rand(0, 65535),
+        mt_rand(0, 65535),
+        mt_rand(16384, 20479),
+        mt_rand(32768, 49151),
+        mt_rand(0, 65535),
+        mt_rand(0, 65535),
+        mt_rand(0, 65535)
+    );
+}

@@ -60,10 +60,26 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: PagamentoPacoteFitCoins::class, mappedBy: 'IdUsuario')]
     private Collection $pagamentoPacoteFitCoins;
 
+    /**
+     * @var Collection<int, GrupoMuscularPrioritario>
+     */
+    #[Ignore]
+    #[ORM\OneToMany(targetEntity: GrupoMuscularPrioritario::class, mappedBy: 'IdUsuario')]
+    private Collection $grupoMuscularPrioritarios;
+
+    /**
+     * @var Collection<int, ListaExercicios>
+     */
+    #[Ignore]
+    #[ORM\OneToMany(targetEntity: ListaExercicios::class, mappedBy: 'IdUsuario')]
+    private Collection $listaExercicios;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
         $this->pagamentoPacoteFitCoins = new ArrayCollection();
+        $this->grupoMuscularPrioritarios = new ArrayCollection();
+        $this->listaExercicios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,6 +251,66 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($pagamentoPacoteFitCoin->getIdUsuario() === $this) {
                 $pagamentoPacoteFitCoin->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GrupoMuscularPrioritario>
+     */
+    public function getGrupoMuscularPrioritarios(): Collection
+    {
+        return $this->grupoMuscularPrioritarios;
+    }
+
+    public function addGrupoMuscularPrioritario(GrupoMuscularPrioritario $grupoMuscularPrioritario): static
+    {
+        if (!$this->grupoMuscularPrioritarios->contains($grupoMuscularPrioritario)) {
+            $this->grupoMuscularPrioritarios->add($grupoMuscularPrioritario);
+            $grupoMuscularPrioritario->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrupoMuscularPrioritario(GrupoMuscularPrioritario $grupoMuscularPrioritario): static
+    {
+        if ($this->grupoMuscularPrioritarios->removeElement($grupoMuscularPrioritario)) {
+            // set the owning side to null (unless already changed)
+            if ($grupoMuscularPrioritario->getIdUsuario() === $this) {
+                $grupoMuscularPrioritario->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ListaExercicios>
+     */
+    public function getListaExercicios(): Collection
+    {
+        return $this->listaExercicios;
+    }
+
+    public function addListaExercicio(ListaExercicios $listaExercicio): static
+    {
+        if (!$this->listaExercicios->contains($listaExercicio)) {
+            $this->listaExercicios->add($listaExercicio);
+            $listaExercicio->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListaExercicio(ListaExercicios $listaExercicio): static
+    {
+        if ($this->listaExercicios->removeElement($listaExercicio)) {
+            // set the owning side to null (unless already changed)
+            if ($listaExercicio->getIdUsuario() === $this) {
+                $listaExercicio->setIdUsuario(null);
             }
         }
 

@@ -4,6 +4,7 @@ namespace App\Controller\Versions\V1;
 
 use App\Repository\TreinoInteligenteRepository;
 use App\Repository\UsuariosRepository;
+use App\Service\TreinoInteligente\Exercicios;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -118,6 +119,18 @@ final class IAController extends AbstractController
 
         $json = $this->serializer->serialize($ficha, 'json');
         return new JsonResponse($json, 200, [], true);
+    }
+
+
+    #[Route("/gerar-exercicios", methods:['POST'])]
+    public function gerarExercicios(Request $request, Exercicios $exercicios)
+    {
+        $this->authHelpers->is_autenticado();
+        $data = ($request->headers->get('Content-Type') == 'application/json') ? $request->toArray() : $request->request->all();
+        $idUsuario = $this->authHelpers->is_autenticado()['id'];
+        $exercicios = $exercicios->cadastrar($data, $idUsuario);
+
+        return $this->json($exercicios, $exercicios['status']);
     }
 
    /* #[Route("/ficha-treino/gerar", methods:['POST'])]

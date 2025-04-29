@@ -35,17 +35,20 @@ final class DietaIAController extends AbstractController
     #[Route('/monte/dieta/com-ia', methods: ['GET'])]
     public function monteComIa(): JsonResponse
     {
-        
-
-        $prompt = prompt1();
-        
+        $prompt = gerarExercicios();
         $gerado = $this->gemini->gerar($prompt);
-
-        $html = preg_replace('/^```html\\n|\\n```$/', '', $gerado);
-
-        $json = $this->serializer->serialize($html, 'json');
     
-        return new JsonResponse($json, 200, [], true);
+        // Remove possíveis marcas de código
+        $limpo = preg_replace('/^```(html|json)?\\n|\\n```$/', '', trim($gerado));
+    
+        // Tenta decodificar como JSON
+        $data = json_decode($limpo, true);
+    
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return new JsonResponse(['error' => 'Erro ao processar JSON'], 500);
+        }
+    
+        return new JsonResponse($data);
     }
     
 }
