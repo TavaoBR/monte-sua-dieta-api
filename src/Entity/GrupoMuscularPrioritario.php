@@ -6,6 +6,8 @@ use App\Repository\GrupoMuscularPrioritarioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GrupoMuscularPrioritarioRepository::class)]
 class GrupoMuscularPrioritario
@@ -13,30 +15,37 @@ class GrupoMuscularPrioritario
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $GrupoMuscular = null;
 
     #[ORM\ManyToOne(inversedBy: 'grupoMuscularPrioritarios')]
     private ?Usuarios $IdUsuario = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Nivel = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?float $qtdFitCoins = null;
 
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * @var Collection<int, ListaExercicios>
      */
+    #[Ignore]
     #[ORM\OneToMany(targetEntity: ListaExercicios::class, mappedBy: 'IdGMP')]
     private Collection $listaExercicios;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Objetivo = null;
 
     public function __construct()

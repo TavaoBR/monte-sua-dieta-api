@@ -133,6 +133,7 @@ final class IAController extends AbstractController
         return $this->json($exercicios, $exercicios['status']);
     }
 
+
    /* #[Route("/ficha-treino/gerar", methods:['POST'])]
     public function nutricaoInteligente(Request $request)
     {

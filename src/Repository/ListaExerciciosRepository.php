@@ -52,6 +52,12 @@ class ListaExerciciosRepository extends ServiceEntityRepository
        return $exercio;
     }
 
+    public function findByIdGrupoAndIdUsuario($idGrupo, $idUsuario)
+    {
+        $result = $this->findBy(['IdGMP' => $idGrupo, 'IdUsuario' => $idUsuario]);
+        return $result;
+    }
+
     //    /**
     //     * @return ListaExercicios[] Returns an array of ListaExercicios objects
     //     */

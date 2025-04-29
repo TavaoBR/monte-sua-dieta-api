@@ -39,6 +39,18 @@ class GrupoMuscularPrioritarioRepository extends ServiceEntityRepository
         return $grupo;
     }
 
+    public function findByIdUsuario($idUsuario)
+    {
+        $result = $this->findBy(['IdUsuario' => $idUsuario]);
+        return $result;
+    }
+
+    public function findById($id)
+    {
+        $result = $this->findOneBy(['id' => $id]);
+        return $result;
+    }
+
     //    /**
     //     * @return GrupoMuscularPrioritario[] Returns an array of GrupoMuscularPrioritario objects
     //     */

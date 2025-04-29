@@ -112,11 +112,43 @@ class Exercicios
             'errors' => $e->getMessage(),
         ];
        }
-
-
-
        
     }
 
+    public function listarMusculos($idUsuario)
+    {
+       $listar = $this->grupoMuscular->findByIdUsuario($idUsuario);
+       if(!$listar){
+           return [
+            'status' => 404,
+            'message' => 'Informação Não Encontrada'
+           ];
+       } 
+
+       return [
+        'status' => 200,
+        'result' => $listar        
+       ];
+    }
+
+
+    public function listarExercicios($idGrupo, $idUsuario)
+    {
+        $listar = $this->listaExercicios->findByIdGrupoAndIdUsuario($idGrupo,$idUsuario);
+        if(!$listar){
+            return [
+             'status' => 404,
+             'message' => 'Informação Não Encontrada'
+            ];
+        }
+        
+        $grupo = $this->grupoMuscular->findById($idGrupo);
+ 
+        return [
+         'status' => 200,
+         'result' => $listar,
+         'grupo' => $grupo->getGrupoMuscular()        
+        ];
+    }
 
 }

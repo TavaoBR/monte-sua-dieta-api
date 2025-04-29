@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ListaExerciciosRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ListaExerciciosRepository::class)]
 class ListaExercicios
@@ -12,6 +14,7 @@ class ListaExercicios
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'listaExercicios')]
@@ -21,33 +24,43 @@ class ListaExercicios
     private ?GrupoMuscularPrioritario $IdGMP = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Exercicio = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $musculoAtivado = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Equipamento = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?int $Series = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?int $Repeticoes = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Dificuldade = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Token = null;
 
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['default'])]
     private ?string $ComoExecutar = null;
 
     public function getId(): ?int
