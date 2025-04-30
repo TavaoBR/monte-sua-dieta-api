@@ -28,8 +28,9 @@ class CheckoutTransparenteService
     } 
 
 
-    public function criarPix(array $data, $idPacote, $idUsuario)
+    public function criarPix(array $data, $idUsuario)
     {
+        $idPacote = $data['pacote'];
 
         $pacote = $this->pacotesRepository->findById($idPacote);
 
@@ -65,7 +66,7 @@ class CheckoutTransparenteService
                     "type" => "CPF",
                     "number" => $data['cpf']
                 ]
-            ],
+            ],  // Colocando currency_id diretamente no nível da transação
             "additional_info" => [
                 "items" => [
                     [
@@ -73,14 +74,12 @@ class CheckoutTransparenteService
                         "title" => $pacote->getTitulo(), // Nome do produto/pacote
                         "description" => $pacote->getDescricao(),
                         "quantity" => 1,
-                        "currency_id" => "BRL",
                         "unit_price" => $pacote->getValor(),
                         "category_id" => "services"
                     ]
                 ]
             ],
-
-           "external_reference" => $this->generateGUID() 
+            "external_reference" => $this->generateGUID()
         ]);
     
         $payload = $payment->point_of_interaction->transaction_data->qr_code;
@@ -97,6 +96,7 @@ class CheckoutTransparenteService
                 'status' => 201,
                 'qrcode' => $qrcode,
                 'payload' => $payload,
+                'correlationId' => $external,
                 'message' => 'Pagamento Pix Gerado com Sucesso'
               ];  
         }catch(\Exception $e){
