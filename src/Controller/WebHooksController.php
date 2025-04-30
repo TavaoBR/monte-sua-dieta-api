@@ -25,6 +25,19 @@ final class WebHooksController extends AbstractController
         return $this->json(['status' => 'received'], 200);
     }
 
+    #[Route('/mercado-pago/checkout-transparente', methods:['POST'])]
+    public function checkoutTransparente(Request $request, MercadoPagoService $mercadoPagoService): JsonResponse
+    {
+        $data = ($request->headers->get('Content-Type') === 'application/json')
+        ? $request->toArray()
+        : $request->request->all();
+
+        $idPagamento = $data['data']['id'];
+
+        $mercadoPagoService->buscarIdPagamento($idPagamento);
+
+        return $this->json(['status' => 'received'], 200);
+    }
 
     /*#[Route('/mercado-pago/test/status/{id}', methods:['POST'])]
     public function teststatus($id, Request $request, MercadoPagoService $mercadoPagoService): JsonResponse
