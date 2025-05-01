@@ -74,12 +74,19 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: ListaExercicios::class, mappedBy: 'IdUsuario')]
     private Collection $listaExercicios;
 
+    /**
+     * @var Collection<int, FichaTreino>
+     */
+    #[ORM\OneToMany(targetEntity: FichaTreino::class, mappedBy: 'IdUsuario')]
+    private Collection $fichaTreinos;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
         $this->pagamentoPacoteFitCoins = new ArrayCollection();
         $this->grupoMuscularPrioritarios = new ArrayCollection();
         $this->listaExercicios = new ArrayCollection();
+        $this->fichaTreinos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +318,36 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($listaExercicio->getIdUsuario() === $this) {
                 $listaExercicio->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FichaTreino>
+     */
+    public function getFichaTreinos(): Collection
+    {
+        return $this->fichaTreinos;
+    }
+
+    public function addFichaTreino(FichaTreino $fichaTreino): static
+    {
+        if (!$this->fichaTreinos->contains($fichaTreino)) {
+            $this->fichaTreinos->add($fichaTreino);
+            $fichaTreino->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFichaTreino(FichaTreino $fichaTreino): static
+    {
+        if ($this->fichaTreinos->removeElement($fichaTreino)) {
+            // set the owning side to null (unless already changed)
+            if ($fichaTreino->getIdUsuario() === $this) {
+                $fichaTreino->setIdUsuario(null);
             }
         }
 
