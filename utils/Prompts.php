@@ -187,6 +187,33 @@ PROMPT;
 }
 
 
+function meAjudaAparelho($imagem)
+{
+    $prompt = <<<PROMPT
+Olá! Poderia identificar esse aparelho de academia que aparece na imagem? Gostaria de saber o nome dele e quais tipos de exercícios posso realizar com ele.
+
+Formato de resposta esperado:
+{
+  "nome_aparelho": "",
+  "exercicios": [
+    {
+      "nome_exercicio": "",
+      "musculos_trabalhados": []
+    }
+  ]
+}
+
+Observação Importante:
+- Liste mais de um exercício, se possível.
+- Em "musculos_trabalhados", informe os músculos principais ativados.
+Importante:
+- Retorne apenas o JSON puro, sem comentários, sem texto antes ou depois.
+- Não utilize markdown nem formate com ```json.
+PROMPT;
+
+    return $prompt;
+}
+
 function generateGUID()
 {
     if (function_exists('com_create_guid') === true) {
