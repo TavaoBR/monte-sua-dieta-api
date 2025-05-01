@@ -112,7 +112,11 @@ class CheckoutTransparenteService
 
     public function cartaoCredito()
     {
-        
+        MercadoPagoConfig::setAccessToken($_ENV['MERCADO_PAGO_TOKEN_TRANSPARENTE']);
+        $client = new PaymentClient();
+        $payment = $client->create([
+
+        ]);
     }
 
 
