@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.PROD_SSH_USERNAME }}
           port: ${{ secrets.PROD_SSH_PORT }}
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
-          comand: |
+          command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/	
             mkdir hi
             unzip -o minha-ia-api.zip
