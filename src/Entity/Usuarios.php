@@ -77,6 +77,7 @@ class Usuarios
     /**
      * @var Collection<int, FichaTreino>
      */
+    #[Ignore]
     #[ORM\OneToMany(targetEntity: FichaTreino::class, mappedBy: 'IdUsuario')]
     private Collection $fichaTreinos;
 
