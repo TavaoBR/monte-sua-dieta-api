@@ -1,0 +1,41 @@
+name: Backend - production
+
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  build_and_upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create archive
+        run: |
+          mkdir output
+          zip -r output/minha-ia-api.zip . > output.txt
+          ls -lash
+
+      - name: Send To FTP server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with: 
+          server: 77.37.127.235
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./output/
+          server-dir: /
+
+      # Remova ou corrija esse passo incompleto
+      - name: Connect to server via SSH
+        uses: tiyee/action-ssh@v1.0.1
+        with:
+          host: ${{ secrets.PRO_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          comand: |
+            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/	
+            mkdir hi
+            unzip -o minha-ia-api.zip
+                        /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
