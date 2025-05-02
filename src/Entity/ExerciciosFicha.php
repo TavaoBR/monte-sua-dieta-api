@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ExerciciosFichaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ExerciciosFichaRepository::class)]
 class ExerciciosFicha
@@ -12,27 +14,33 @@ class ExerciciosFicha
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'exerciciosFichas')]
     private ?FichaTreino $IdFicha = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $DiaSemana = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $GrupoMuscular = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?array $ArrayExcercicios = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Cardio = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Aquecimento = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Observacoes = null;
 
     #[ORM\Column]

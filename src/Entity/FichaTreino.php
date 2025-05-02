@@ -48,6 +48,12 @@ class FichaTreino
     #[ORM\OneToMany(targetEntity: ExerciciosFicha::class, mappedBy: 'IdFicha')]
     private Collection $exerciciosFichas;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $FocoPrincipal = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Objetivo = null;
+
     public function __construct()
     {
         $this->exerciciosFichas = new ArrayCollection();
@@ -193,6 +199,30 @@ class FichaTreino
                 $exerciciosFicha->setIdFicha(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFocoPrincipal(): ?string
+    {
+        return $this->FocoPrincipal;
+    }
+
+    public function setFocoPrincipal(?string $FocoPrincipal): static
+    {
+        $this->FocoPrincipal = $FocoPrincipal;
+
+        return $this;
+    }
+
+    public function getObjetivo(): ?string
+    {
+        return $this->Objetivo;
+    }
+
+    public function setObjetivo(?string $Objetivo): static
+    {
+        $this->Objetivo = $Objetivo;
 
         return $this;
     }
