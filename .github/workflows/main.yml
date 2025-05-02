@@ -20,7 +20,7 @@ jobs:
       - name: Send To FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with: 
-          server: 77.37.127.235
+          server: ${{ secrets.FTP_SERVER}}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
