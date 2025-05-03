@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.PRO_SSH_HOST }}
           username: ${{ secrets.PROD_SSH_USERNAME }}
           port: ${{ secrets.PROD_SSH_PORT }}
-          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          key: ${{ secrets.PROD_SSH_PUBLIC_KEY }}
           script: |
             rm -rf /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/*
             unzip -o /tmp/project.zip -d /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
