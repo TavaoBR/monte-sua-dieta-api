@@ -1,6 +1,6 @@
 name: Backend - production
 
-on:
+on: 
   push:
     branches: [ main ]
 
@@ -19,21 +19,22 @@ jobs:
 
       - name: Send To FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
+        with: 
+          server: ${{ secrets.FTP_SERVER}}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
           server-dir: /
 
+      # Remova ou corrija esse passo incompleto
       - name: Connect to server via SSH
         uses: tiyee/action-ssh@v1.0.1
         with:
-          host: ${{ secrets.PROD_SSH_HOST }}
+          host: ${{ secrets.PRO_SSH_HOST }}
           username: ${{ secrets.PROD_SSH_USERNAME }}
           port: ${{ secrets.PROD_SSH_PORT }}
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
-            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/	
             unzip -o minha-ia-api.zip
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
