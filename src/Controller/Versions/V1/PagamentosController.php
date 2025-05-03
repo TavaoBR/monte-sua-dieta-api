@@ -4,8 +4,8 @@ namespace App\Controller\Versions\V1;
 
 use App\Helpers\AuthHelpers;
 use App\Repository\PagamentoPacoteFitCoinsRepository;
+use App\Service\Payments\MercadoPago\CheckoutProService;
 use App\Service\Payments\MercadoPago\CheckoutTransparenteService;
-use App\Service\Payments\MercadoPagoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,16 +13,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/v1/pagamentos')]
 final class PagamentosController extends AbstractController
 {
-    private $apiMercado;
+    private $checkoutPro;
     private $authHelpers;
     private $checkoutTransparente;
     public function __construct(
       AuthHelpers $authHelpers, 
-      MercadoPagoService $mercadoPagoService,
-      CheckoutTransparenteService $checkoutTransparente
+      CheckoutTransparenteService $checkoutTransparente,
+      CheckoutProService $checkoutProService
     )
     {
-      $this->apiMercado = $mercadoPagoService;
+      $this->checkoutPro = $checkoutProService;
       $this->authHelpers = $authHelpers;
       $this->checkoutTransparente = $checkoutTransparente;
     }
@@ -34,7 +34,7 @@ final class PagamentosController extends AbstractController
         $data = ($request->headers->get('Content-Type') == 'application/json') ? $request->toArray() : $request->request->all();
         $idUsuario = $this->authHelpers->is_autenticado()['id'];
 
-        $gerar = $this->apiMercado->gerarLinkPagamento($data['pacote'], $idUsuario);
+        $gerar = $this->checkoutPro->gerarLinkPagamento($data['pacote'], $idUsuario);
 
         return $this->json($gerar, $gerar['statusCode']);
 
