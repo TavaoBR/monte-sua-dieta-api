@@ -15,7 +15,7 @@ jobs:
       - name: Criar arquivo ZIP do projeto
         run: |
           mkdir output
-          zip -r output/minha-ia-api.zip . > output.txt
+          zip -r output/minha-ia-api.zip . -x "*.git*" -x "output/*" -x ".github/*"
           ls -lash output
 
       - name: Enviar para o servidor FTP
@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
-          server-dir: / # ajuste se o destino for subpasta
+          server-dir: /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
 
       - name: Conectar ao servidor via SSH e instalar dependências
         uses: tiyee/action-ssh@v1.0.1
@@ -36,5 +36,5 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
-            unzip -o minha-ia-api.zip
+            unzip -o minha-ia-api.zip -d .
             php composer.phar install
