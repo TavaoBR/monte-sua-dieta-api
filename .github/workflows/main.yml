@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
-          server-dir: /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+          server-dir: /
 
       # Remova ou corrija esse passo incompleto
       - name: Connect to server via SSH
@@ -36,5 +36,6 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/	
+            mkdir hii
             unzip -o minha-ia-api.zip
-            composer.phar install
+            /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
