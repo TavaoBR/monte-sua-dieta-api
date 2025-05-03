@@ -12,10 +12,10 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Criar arquivo ZIP do projeto
+      - name: Criar arquivo ZIP do projeto (sem .git e outras pastas desnecessárias)
         run: |
           mkdir output
-          zip -r output/minha-ia-api.zip . > output/output.txt
+          zip -r output/minha-ia-api.zip . -x ".git/*" -x ".github/*" -x "output/*" > output.txt
           ls -lash output
 
       - name: Enviar para o servidor FTP
@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
-          server-dir: /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+          server-dir: / # ajuste se o destino for subpasta
 
       - name: Conectar ao servidor via SSH e instalar dependências
         uses: tiyee/action-ssh@v1.0.1
@@ -37,4 +37,4 @@ jobs:
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
             unzip -o minha-ia-api.zip
-            /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+            /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
