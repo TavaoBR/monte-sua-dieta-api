@@ -12,29 +12,30 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Criar arquivo ZIP do projeto
-        run: |
-          mkdir output
-          zip -r output/minha-ia-api.zip . > output.txt
-          ls -lash output
+      # Etapa opcional: build, zip, etc. Removida pois vamos usar rsync direto.
 
-      - name: Enviar para o servidor FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./output/
-          server-dir: /apiminhaiafit/ # ajuste se o destino for subpasta
-
-      - name: Conectar ao servidor via SSH e instalar dependências
-        uses: tiyee/action-ssh@v1.0.1
+      - name: Garantir que diretório remoto existe
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.PRO_SSH_HOST }}
           username: ${{ secrets.PROD_SSH_USERNAME }}
           port: ${{ secrets.PROD_SSH_PORT }}
-          privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
-          command: |
-            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
-            unzip -o minha-ia-api.zip
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
+
+      - name: Sincronizar projeto via rsync (com remoção)
+        run: |
+          rsync -avz --delete -e "ssh -p ${{ secrets.PROD_SSH_PORT }}" ./ \
+            ${{ secrets.PROD_SSH_USERNAME }}@${{ secrets.PRO_SSH_HOST }}:/home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
+
+      - name: Instalar dependências via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PRO_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
