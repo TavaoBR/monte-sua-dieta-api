@@ -6,6 +6,8 @@ use App\Repository\FichaTreinoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FichaTreinoRepository::class)]
 class FichaTreino
@@ -13,27 +15,33 @@ class FichaTreino
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'fichaTreinos')]
     private ?Usuarios $IdUsuario = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Token = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Experiencia = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Dificuldade = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $Observacoes = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $NomeFicha = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?float $PontosUsados = null;
 
     #[ORM\Column]
@@ -49,9 +57,11 @@ class FichaTreino
     private Collection $exerciciosFichas;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $FocoPrincipal = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Objetivo = null;
 
     public function __construct()
