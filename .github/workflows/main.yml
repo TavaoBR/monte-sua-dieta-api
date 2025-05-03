@@ -12,27 +12,29 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      - name: Instalar zip no runner
-        run: sudo apt-get install -y zip
-
-      - name: Compactar o projeto (exceto .git e node_modules)
+      - name: Criar arquivo ZIP do projeto
         run: |
-          zip -r project.zip . -x "*.git*" "node_modules/*"
+          mkdir output
+          zip -r output/minha-ia-api.zip . > output.txt
+          ls -lash output
 
-      - name: Enviar ZIP via SCP para o servidor
-        run: |
-          scp -o StrictHostKeyChecking=no -P ${{ secrets.PROD_SSH_PORT }} project.zip \
-            ${{ secrets.PROD_SSH_USERNAME }}@${{ secrets.PRO_SSH_HOST }}:/tmp/project.zip
+      - name: Enviar para o servidor FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./output/
+          server-dir: /apiminhaiafit/ # ajuste se o destino for subpasta
 
-      - name: Acessar o servidor via SSH e fazer deploy
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Conectar ao servidor via SSH e instalar dependências
+        uses: tiyee/action-ssh@v1.0.1
         with:
           host: ${{ secrets.PRO_SSH_HOST }}
           username: ${{ secrets.PROD_SSH_USERNAME }}
           port: ${{ secrets.PROD_SSH_PORT }}
-          key: ${{ secrets.PROD_SSH_PUBLIC_KEY }}
-          script: |
-            rm -rf /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/*
-            unzip -o /tmp/project.zip -d /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
-            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
+          privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          command: |
+            cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+            unzip -o minha-ia-api.zip
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
