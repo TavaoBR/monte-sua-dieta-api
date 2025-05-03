@@ -12,8 +12,6 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v3
 
-      # Etapa opcional: build, zip, etc. Removida pois vamos usar rsync direto.
-
       - name: Garantir que diretório remoto existe
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -24,9 +22,9 @@ jobs:
           script: |
             mkdir -p /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
 
-      - name: Sincronizar projeto via rsync (com remoção)
+      - name: Sincronizar projeto via rsync (com remoção de arquivos obsoletos)
         run: |
-          rsync -avz --delete -e "ssh -p ${{ secrets.PROD_SSH_PORT }}" ./ \
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.PROD_SSH_PORT }}" ./ \
             ${{ secrets.PROD_SSH_USERNAME }}@${{ secrets.PRO_SSH_HOST }}:/home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit
 
       - name: Instalar dependências via SSH
