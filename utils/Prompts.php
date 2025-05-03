@@ -231,9 +231,9 @@ function gerarFichaExercicios(array $data) {
     Local de treino: Academia  
     Foco principal: {$data['foco']} 
     Tempo por treino: Máximo 60 minutos  
-    Quantidade de exercícios por dia: 5  
+    Quantidade de exercícios por dia: {$data['qtdExercicios']}  
     Deseja incluir cardio? Sim  
-    Cardio preferido: bicicleta ergométrica  
+    Cardio preferido: {$data['cardio']}  
     
     Instruções para a ficha:
     - Escolha uma divisão de treino adequada ao nível e objetivo do usuário (ex: ABC, AB, Full Body).

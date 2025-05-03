@@ -52,7 +52,7 @@ class FichaService
        if (!is_array($exercicios) || !isset($exercicios[0]) || !is_array($exercicios[0])) {
         return [
             'status' => 500,
-            'message' => 'Resposta da IA inválida',
+            'message' => 'Resposta da IA inválida, tente novamente daqui a pouco',
             'errors' => $exercicios,
         ];
       }
@@ -116,7 +116,7 @@ class FichaService
     public function listarExercicios($token)
     {
        $listar = $this->fichaExercicio->findByToken($token);
-       
+
        if(!$listar){
         return [
          'status' => 404,
