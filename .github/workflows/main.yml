@@ -36,5 +36,6 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/	
+            mkdir hi
             unzip -o minha-ia-api.zip
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
