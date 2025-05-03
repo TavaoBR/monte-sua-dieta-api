@@ -37,4 +37,4 @@ jobs:
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
             unzip -o minha-ia-api.zip
-            /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
+            composer.phar install
