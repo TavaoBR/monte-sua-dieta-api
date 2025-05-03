@@ -21,7 +21,7 @@ jobs:
       - name: Enviar para o servidor FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 77.37.127.235
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
@@ -36,5 +36,5 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
-            unzip -o minha-ia-api.zip
+            unzip -o minha-ia-api.zip -d /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
