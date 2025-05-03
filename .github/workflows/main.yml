@@ -36,5 +36,7 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+            # Excluir todos os arquivos e pastas dentro de apiminhaiafit antes de descompactar
+            rm -rf /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/*
             unzip -o minha-ia-api.zip -d /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
