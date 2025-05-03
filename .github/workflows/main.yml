@@ -25,7 +25,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./output/
-          server-dir: /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
+          server-dir: / # ajuste se o destino for subpasta
 
       - name: Conectar ao servidor via SSH e instalar dependências
         uses: tiyee/action-ssh@v1.0.1
@@ -36,7 +36,5 @@ jobs:
           privateKey: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           command: |
             cd /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
-            # Remove tudo EXCETO o arquivo zip
-            find . ! -name 'minha-ia-api.zip' -delete
-            unzip -o minha-ia-api.zip
+            unzip -o minha-ia-api.zip -d /home/u736474566/domains/sistemasgu.com/public_html/apiminhaiafit/
             /opt/cloudlinux/alt-php82/root/usr/bin/php composer.phar install
