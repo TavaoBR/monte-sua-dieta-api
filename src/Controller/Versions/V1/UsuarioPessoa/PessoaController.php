@@ -38,7 +38,7 @@ final class PessoaController extends AbstractController
             ], 404);
         }
 
-        $json = $this->serializer->serialize($pessoa, 'json');
+        $json = $this->serializer->serialize($pessoa, 'json', ['groups' => 'default']);
 
         return new JsonResponse($json, 200, [], true);
     }

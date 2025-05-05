@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UsuariosRepository::class)]
 class Usuarios
@@ -18,9 +19,11 @@ class Usuarios
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $NomeUsuario = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,9 +33,11 @@ class Usuarios
     private ?string $Token = null;
 
     #[ORM\Column(length: 100000, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Avatar = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[Groups(['default'])]
     private ?int $Credito = 1000;
 
     #[ORM\Column]

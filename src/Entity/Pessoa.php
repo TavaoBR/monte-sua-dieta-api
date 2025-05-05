@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PessoaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PessoaRepository::class)]
 class Pessoa
@@ -18,21 +19,27 @@ class Pessoa
     private ?Usuarios $IdUsuario = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['default'])]
     private ?string $Nome = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Sobrenome = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['default'])]
     private ?int $Idade = null;
 
     #[ORM\Column(length: 1, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Sexo = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Altura = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Peso = null;
 
     #[ORM\Column]
