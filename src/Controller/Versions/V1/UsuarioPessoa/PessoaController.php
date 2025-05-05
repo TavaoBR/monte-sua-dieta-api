@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Versions\V1;
+namespace App\Controller\Versions\V1\UsuarioPessoa;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

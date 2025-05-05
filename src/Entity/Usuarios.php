@@ -81,6 +81,12 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: FichaTreino::class, mappedBy: 'IdUsuario')]
     private Collection $fichaTreinos;
 
+    /**
+     * @var Collection<int, PerfilNutricional>
+     */
+    #[ORM\OneToMany(targetEntity: PerfilNutricional::class, mappedBy: 'IdUsuario')]
+    private Collection $perfilNutricionals;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
@@ -88,6 +94,7 @@ class Usuarios
         $this->grupoMuscularPrioritarios = new ArrayCollection();
         $this->listaExercicios = new ArrayCollection();
         $this->fichaTreinos = new ArrayCollection();
+        $this->perfilNutricionals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,6 +356,36 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($fichaTreino->getIdUsuario() === $this) {
                 $fichaTreino->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PerfilNutricional>
+     */
+    public function getPerfilNutricionals(): Collection
+    {
+        return $this->perfilNutricionals;
+    }
+
+    public function addPerfilNutricional(PerfilNutricional $perfilNutricional): static
+    {
+        if (!$this->perfilNutricionals->contains($perfilNutricional)) {
+            $this->perfilNutricionals->add($perfilNutricional);
+            $perfilNutricional->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePerfilNutricional(PerfilNutricional $perfilNutricional): static
+    {
+        if ($this->perfilNutricionals->removeElement($perfilNutricional)) {
+            // set the owning side to null (unless already changed)
+            if ($perfilNutricional->getIdUsuario() === $this) {
+                $perfilNutricional->setIdUsuario(null);
             }
         }
 
