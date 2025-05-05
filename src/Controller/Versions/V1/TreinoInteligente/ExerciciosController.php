@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controller\Versions\V1;
+namespace App\Controller\Versions\V1\TreinoInteligente;
 
 use App\Service\TreinoInteligente\Exercicios;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\UsuariosRepository;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Helpers\AuthHelpers;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +44,7 @@ final class ExerciciosController extends AbstractController
     public function listarExercicios(int $id)
     {
         $this->authHelpers->is_autenticado();
-        $idUsuario = $this->authHelpers->is_autenticado();['id'];
+        $idUsuario = $this->authHelpers->is_autenticado()['id'];
         $listar = $this->exerciosService->listarExercicios($id, $idUsuario);
         $json = $this->serializer->serialize($listar, 'json', ['groups' => 'default']);
         return new JsonResponse($json, $listar['status'], [], true);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Versions\V1;
+namespace App\Controller\Versions\V1\IAGenerate;
 
 use App\Repository\TreinoInteligenteRepository;
 use App\Repository\UsuariosRepository;

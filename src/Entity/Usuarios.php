@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UsuariosRepository::class)]
 class Usuarios
@@ -18,9 +19,11 @@ class Usuarios
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $NomeUsuario = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,9 +33,11 @@ class Usuarios
     private ?string $Token = null;
 
     #[ORM\Column(length: 100000, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Avatar = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[Groups(['default'])]
     private ?int $Credito = 1000;
 
     #[ORM\Column]
@@ -81,6 +86,12 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: FichaTreino::class, mappedBy: 'IdUsuario')]
     private Collection $fichaTreinos;
 
+    /**
+     * @var Collection<int, PerfilNutricional>
+     */
+    #[ORM\OneToMany(targetEntity: PerfilNutricional::class, mappedBy: 'IdUsuario')]
+    private Collection $perfilNutricionals;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
@@ -88,6 +99,7 @@ class Usuarios
         $this->grupoMuscularPrioritarios = new ArrayCollection();
         $this->listaExercicios = new ArrayCollection();
         $this->fichaTreinos = new ArrayCollection();
+        $this->perfilNutricionals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,6 +361,36 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($fichaTreino->getIdUsuario() === $this) {
                 $fichaTreino->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PerfilNutricional>
+     */
+    public function getPerfilNutricionals(): Collection
+    {
+        return $this->perfilNutricionals;
+    }
+
+    public function addPerfilNutricional(PerfilNutricional $perfilNutricional): static
+    {
+        if (!$this->perfilNutricionals->contains($perfilNutricional)) {
+            $this->perfilNutricionals->add($perfilNutricional);
+            $perfilNutricional->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePerfilNutricional(PerfilNutricional $perfilNutricional): static
+    {
+        if ($this->perfilNutricionals->removeElement($perfilNutricional)) {
+            // set the owning side to null (unless already changed)
+            if ($perfilNutricional->getIdUsuario() === $this) {
+                $perfilNutricional->setIdUsuario(null);
             }
         }
 

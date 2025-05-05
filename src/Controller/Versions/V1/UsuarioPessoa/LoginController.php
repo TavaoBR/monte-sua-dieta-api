@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Versions\V1;
+namespace App\Controller\Versions\V1\UsuarioPessoa;
 
 use App\Helpers\AuthHelpers;
 use App\Repository\UsuariosRepository;

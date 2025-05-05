@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Versions\V1;
+namespace App\Controller\Versions\V1\UsuarioPessoa;
 
 use App\Helpers\AuthHelpers;
 use App\Repository\UsuariosRepository;
@@ -30,7 +30,7 @@ final class UsuarioController extends AbstractController
         $usuario = $this->usuariosRepository->findByToken($this->authHelpers->is_autenticado()['token']);
      
         // Serializa o objeto antes de retorná-lo
-        $json = $this->serializer->serialize($usuario, 'json');
+        $json = $this->serializer->serialize($usuario, 'json', ['groups' => 'default']);
 
         return new JsonResponse($json, 200, [], true);
 
