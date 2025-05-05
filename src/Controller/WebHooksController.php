@@ -39,17 +39,4 @@ final class WebHooksController extends AbstractController
         return $this->json(['status' => 'received'], 200);
     }
 
-    /*#[Route('/mercado-pago/test/status/{id}', methods:['POST'])]
-    public function teststatus($id, Request $request, MercadoPagoService $mercadoPagoService): JsonResponse
-    {
-        $data = ($request->headers->get('Content-Type') === 'application/json')
-        ? $request->toArray()
-        : $request->request->all();
-
-        $select = $mercadoPagoService->buscarIdPagamento($id);
-        
-
-        return $this->json(['result' => $select], 200);
-    }*/
-
 }
