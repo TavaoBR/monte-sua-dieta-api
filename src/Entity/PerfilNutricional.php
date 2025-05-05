@@ -22,7 +22,7 @@ class PerfilNutricional
     #[ORM\Column(length: 999, nullable: true)]
     private ?string $NivelAtividade = null;
 
-    #[ORM\Column(length: 999)]
+    #[ORM\Column(length: 999, nullable: true)]
     private ?string $PreferenciasAlimentares = null;
 
     #[ORM\Column(length: 999, nullable: true)]
@@ -33,6 +33,12 @@ class PerfilNutricional
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(length: 999, nullable: true)]
+    private ?string $RestricoesAlimentares = null;
+
+    #[ORM\Column(length: 999, nullable: true)]
+    private ?string $Alergias = null;
 
     public function getId(): ?int
     {
@@ -119,6 +125,30 @@ class PerfilNutricional
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getRestricoesAlimentares(): ?string
+    {
+        return $this->RestricoesAlimentares;
+    }
+
+    public function setRestricoesAlimentares(?string $RestricoesAlimentares): static
+    {
+        $this->RestricoesAlimentares = $RestricoesAlimentares;
+
+        return $this;
+    }
+
+    public function getAlergias(): ?string
+    {
+        return $this->Alergias;
+    }
+
+    public function setAlergias(?string $Alergias): static
+    {
+        $this->Alergias = $Alergias;
 
         return $this;
     }
