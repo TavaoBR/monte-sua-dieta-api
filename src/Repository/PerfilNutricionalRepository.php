@@ -29,6 +29,7 @@ class PerfilNutricionalRepository extends ServiceEntityRepository
         $perfil->setRestricoesAlimentares($data['restricoes']);
         $perfil->setCondicoesMedica($data['condicoes']);
         $perfil->setAlergias($data['alergias']);
+        $perfil->setTipoDieta($data['tipoDieta']);
         $perfil->setCreatedAt(new \DateTimeImmutable("now", new \DateTimeZone("America/Sao_Paulo")));
         $entityManager->persist($perfil);
         $entityManager->flush();
