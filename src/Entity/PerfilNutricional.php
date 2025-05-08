@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PerfilNutricionalRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PerfilNutricionalRepository::class)]
 class PerfilNutricional
@@ -11,21 +12,26 @@ class PerfilNutricional
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'perfilNutricionals')]
     private ?Usuarios $IdUsuario = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Objetivo = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $NivelAtividade = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $PreferenciasAlimentares = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $CondicoesMedica = null;
 
     #[ORM\Column]
@@ -35,10 +41,16 @@ class PerfilNutricional
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $RestricoesAlimentares = null;
 
     #[ORM\Column(length: 999, nullable: true)]
+    #[Groups(['default'])]
     private ?string $Alergias = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['default'])]
+    private ?string $TipoDieta = null;
 
     public function getId(): ?int
     {
@@ -149,6 +161,18 @@ class PerfilNutricional
     public function setAlergias(?string $Alergias): static
     {
         $this->Alergias = $Alergias;
+
+        return $this;
+    }
+
+    public function getTipoDieta(): ?string
+    {
+        return $this->TipoDieta;
+    }
+
+    public function setTipoDieta(?string $TipoDieta): static
+    {
+        $this->TipoDieta = $TipoDieta;
 
         return $this;
     }
