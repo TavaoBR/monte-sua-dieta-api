@@ -50,7 +50,9 @@
             "App\\": "src/"
         },
         "files": [
-            "utils/Prompts.php"
+            "utils/Prompts.php",
+            "utils/Prompts/NutricaoInteligente.php",
+            "utils/Prompts/TreinoInteligente.php"
         ]
     },
     "autoload-dev": {
