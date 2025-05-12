@@ -78,6 +78,41 @@ class PlanoAlimentarService
         }
     }
 
+
+    public function listarPlanos(int $idUsuario)
+    {
+        $listar = $this->planoAlimentar->findByIdUsuario($idUsuario);
+
+        if (!$listar) {
+            return [
+                'status' => 404,
+                'message' => 'Informação Não Encontrada'
+            ];
+        }
+
+        return [
+            'status' => 200,
+            'result' => $listar
+        ];
+    }
+
+    public function listarPlano(string $token)
+    {
+        $listar = $this->planoAlimentar->findByToken($token);
+
+        if (!$listar) {
+            return [
+                'status' => 404,
+                'message' => 'Informação Não Encontrada'
+            ];
+        }
+
+        return [
+            'status' => 200,
+            'result' => $listar
+        ];
+    }
+
     function generateGUID()
     {
         if (function_exists('com_create_guid') === true) {

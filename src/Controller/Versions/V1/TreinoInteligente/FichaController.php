@@ -22,28 +22,27 @@ final class FichaController extends AbstractController
         AuthHelpers $authHelpers,
         SerializerInterface $serializer,
         FichaService $fichaService
-    )
-    {
+    ) {
         $this->authHelpers = $authHelpers;
         $this->serializer = $serializer;
         $this->fichaService = $fichaService;
     }
 
-    #[Route('/', methods:['GET'])]
+    #[Route('/', methods: ['GET'])]
     public function listarFichas()
     {
         $this->authHelpers->is_autenticado();
 
-        $idUsuario = $this->authHelpers->is_autenticado();['id'];
+        $idUsuario = $this->authHelpers->is_autenticado()['id'];
 
         $fichas = $this->fichaService->listarFichas($idUsuario);
 
         $json = $this->serializer->serialize($fichas, 'json', ['groups' => 'default']);
-        
-       return new JsonResponse($json, $fichas['status'], [], true);
+
+        return new JsonResponse($json, $fichas['status'], [], true);
     }
 
-    #[Route('/exercicios/{token}', methods:['GET'])]
+    #[Route('/exercicios/{token}', methods: ['GET'])]
     public function exerciciosFicha($token): JsonResponse
     {
         $this->authHelpers->is_autenticado();
@@ -51,7 +50,7 @@ final class FichaController extends AbstractController
         $exercicios = $this->fichaService->listarExercicios($token);
 
         $json = $this->serializer->serialize($exercicios, 'json', ['groups' => 'default']);
-        
+
         return new JsonResponse($json, $exercicios['status'], [], true);
     }
 }

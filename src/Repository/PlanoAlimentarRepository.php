@@ -17,7 +17,7 @@ class PlanoAlimentarRepository extends ServiceEntityRepository
         parent::__construct($registry, PlanoAlimentar::class);
     }
 
-    public function addPlanoAlimentar($idUsuario, array $data, $nomePlano, $token): PlanoAlimentar
+    public function addPlanoAlimentar(int $idUsuario, array $data, string $nomePlano, string $token): PlanoAlimentar
     {
         $usuario = $this->getEntityManager()->getRepository(Usuarios::class)->findOneBy(['id' => $idUsuario]);
         $entityManager = $this->getEntityManager();
@@ -34,6 +34,18 @@ class PlanoAlimentarRepository extends ServiceEntityRepository
         $entityManager->flush();
 
         return $plano;
+    }
+
+    public function findByIdUsuario(int $idUsuario)
+    {
+        $result = $this->findBy(['IdUsuario' => $idUsuario]);
+        return $result;
+    }
+
+    public function findByToken(string $token)
+    {
+        $result = $this->findOneBy(['Token' => $token]);
+        return $result;
     }
 
     //    /**
