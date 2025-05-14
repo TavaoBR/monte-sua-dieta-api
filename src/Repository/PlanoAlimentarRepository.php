@@ -38,7 +38,7 @@ class PlanoAlimentarRepository extends ServiceEntityRepository
 
     public function findByIdUsuario(int $idUsuario)
     {
-        $result = $this->findBy(['IdUsuario' => $idUsuario]);
+        $result = $this->findBy(['IdUsuario' => $idUsuario], ['id' => 'DESC']);
         return $result;
     }
 

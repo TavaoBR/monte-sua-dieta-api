@@ -38,7 +38,7 @@ class PerfilNutricionalRepository extends ServiceEntityRepository
 
     public function findByIdUsuario($idUsuario)
     {
-        $result = $this->findBy(['IdUsuario' => $idUsuario]);
+        $result = $this->findOneBy(['IdUsuario' => $idUsuario]);
         return $result;
     }
 

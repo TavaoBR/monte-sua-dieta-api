@@ -29,6 +29,7 @@ function gerarPlanoAlimentar(array $data)
         - Jantar: refeição mais leve e equilibrada, evitando itens muito pesados ou calóricos.
       - Evite incluir alimentos fora de contexto (ex: frango grelhado no café da manhã).
       - Respeite os costumes alimentares brasileiros.
+       - ❌ Não inclua unidades como "kcal" ou "g" nos valores numéricos. Apenas os números.
 
 
     ⚠️ IMPORTANTE:
