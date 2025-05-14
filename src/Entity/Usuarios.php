@@ -92,6 +92,12 @@ class Usuarios
     #[ORM\OneToMany(targetEntity: PerfilNutricional::class, mappedBy: 'IdUsuario')]
     private Collection $perfilNutricionals;
 
+    /**
+     * @var Collection<int, PlanoAlimentar>
+     */
+    #[ORM\OneToMany(targetEntity: PlanoAlimentar::class, mappedBy: 'IdUsuario')]
+    private Collection $planoAlimentars;
+
     public function __construct()
     {
         $this->treinoInteligentes = new ArrayCollection();
@@ -100,6 +106,7 @@ class Usuarios
         $this->listaExercicios = new ArrayCollection();
         $this->fichaTreinos = new ArrayCollection();
         $this->perfilNutricionals = new ArrayCollection();
+        $this->planoAlimentars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -391,6 +398,36 @@ class Usuarios
             // set the owning side to null (unless already changed)
             if ($perfilNutricional->getIdUsuario() === $this) {
                 $perfilNutricional->setIdUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlanoAlimentar>
+     */
+    public function getPlanoAlimentars(): Collection
+    {
+        return $this->planoAlimentars;
+    }
+
+    public function addPlanoAlimentar(PlanoAlimentar $planoAlimentar): static
+    {
+        if (!$this->planoAlimentars->contains($planoAlimentar)) {
+            $this->planoAlimentars->add($planoAlimentar);
+            $planoAlimentar->setIdUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlanoAlimentar(PlanoAlimentar $planoAlimentar): static
+    {
+        if ($this->planoAlimentars->removeElement($planoAlimentar)) {
+            // set the owning side to null (unless already changed)
+            if ($planoAlimentar->getIdUsuario() === $this) {
+                $planoAlimentar->setIdUsuario(null);
             }
         }
 
