@@ -2,6 +2,8 @@
 
 Minha IA Fitness API é uma aplicação RESTful desenvolvida com Symfony e PHP, que usa inteligência artificial para gerar planos alimentares personalizados de acordo com as necessidades nutricionais e metas de saúde dos usuários. A API permite que os usuários configurem suas preferências, registrem refeições, acompanhem metas e obtenham sugestões alimentares baseadas em dados de saúde e treino.
 
+## Atenção, a versão desse repositorio não recebe mais atualizações, é apenas para estudo
+
 ## 🚀 Tecnologias Utilizadas
 
 - PHP ^8.x
